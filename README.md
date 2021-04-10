@@ -2,7 +2,23 @@
 
 [![Build Status](https://img.shields.io/badge/Python-3.9.1-blue)](https://img.shields.io/badge/Python-3.9.1-blue)
 
-## Install 🤘
+As it's name suggest, QueueTest is a blockable queue of messages/tasks.
+The main objective of QueueTest is to create a list of tasks for asyncronous processing.
+
+The implementation must garantee:
+- All messages/tasks on QueueTest **must be** processed. (If a thread couldn't process a message, it should go back to the queue)
+- To provide a messages/tasks to a single thread on a multithread aplication. (Multhreads can't get the same message/task to avoid processing waste.)
+
+Queue Behavior/Rules:
+- A Queue is initially empty (without any messages)
+- On instantiating a Queue, you must choose the max size of it (you can use `0` as infinite size).
+- A Queue object must have a `qsize` method, which returns the number of messages inside it.
+- A Queue object must have a `full` method, which returns if the queue is full or not.
+- A Queue object must have a `put` method. This method must receive an `str` object as id, an "any type" object as content and an `integer` object as timeout.
+    - huh
+
+
+## How to Install? 🤘
 
 The following steps covers the setup process
 
@@ -23,7 +39,7 @@ Open your bash and run the follow command to install all the project dependencie
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
-## Tests ⚗️
+## How to Test? ⚗️
 
 Execute the following command to run tests.
 
