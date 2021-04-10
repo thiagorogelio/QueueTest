@@ -43,23 +43,14 @@ class TestQueue(unittest.TestCase):
         queue = Queue(maxsize=1)
 
         with self.assertRaises(Empty):
-            queue.get(block=True, timeout=1)
-
-        with self.assertRaises(Empty):
-            queue.get(block=False)
+            queue.get(timeout=1)
 
         with self.assertRaises(ValueError):
-            queue.get(block=True, timeout=-4)
+            queue.get(timeout=-4)
 
-        queue.put("1.txt", {"abc": "whatever"}, block=True, timeout=10)
-        queue_message = queue.get(block=True, timeout=1)
-        self.assertEqual(queue_message.value, {"abc": "whatever"})
-
-        queue = Queue(maxsize=1)
-
-        queue.put("1.txt", {"abc": "whatever"}, block=True, timeout=10)
-        queue_message = queue.get(block=False)
-        self.assertEqual(queue_message.value, {"abc": "whatever"})
+        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue_message = queue.get(timeout=1)
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
 
     def test_delete(self):
         queue = Queue(maxsize=1)
@@ -73,7 +64,7 @@ class TestQueue(unittest.TestCase):
         queue_message = queue.get(block=True, timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.value, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
         self.assertEqual(queue_message.id, "1.txt")
 
         queue.delete(queue_message.id)
@@ -115,7 +106,7 @@ class TestQueue(unittest.TestCase):
         queue_message = queue.get(block=True, timeout=1, acquire_timeout=0.1)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.value, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
         self.assertEqual(queue_message.id, "1.txt")
 
         time.sleep(0.5)
@@ -123,7 +114,7 @@ class TestQueue(unittest.TestCase):
         queue_message = queue.get(block=True, timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.value, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
         self.assertEqual(queue_message.id, "1.txt")
 
         with self.assertRaises(Empty):

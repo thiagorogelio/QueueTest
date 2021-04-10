@@ -27,7 +27,7 @@ class DeleteAttemptToUnknownMessage(Exception):
 @dataclass
 class QueueMessage:
     id: str
-    value: Any
+    content: Any
 
 
 class Queue(object):
