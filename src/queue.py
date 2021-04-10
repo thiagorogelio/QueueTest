@@ -1,3 +1,5 @@
+from typing import Any
+
 class Empty(Exception):
     def __init__(self) -> None:
         super().__init__("Queue is empty")
@@ -19,6 +21,10 @@ class DeleteAttemptToUnknownMessage(Exception):
             "The message you tried to delete was already deleted or don't exists"
         )
 
+@dataclass
+class QueueMessage:
+    id: str
+    value: Any
 
 class Queue(object):
     pass
