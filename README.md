@@ -12,10 +12,17 @@ The implementation must garantee:
 Queue Behavior/Rules:
 - A Queue is initially empty (without any messages)
 - On instantiating a Queue, you must choose the max size of it (you can use `0` as infinite size).
+- A Queue object must have a `put` method. This method must receive an `str` object as id, an "any type" object as content and an optional `integer` object as timeout.
+    - The Id and Content values must be used to create a new QueueMessage object and then, saved into the Queue.
+    - A Queue object must raise an `Full` error if the queue is full.
+    - The timeout value should be used to inform for how many time the Queue object should try to put the message if the queue is full before raising the `Full` error.
+    - If an already existed Id is informed, the method should raise the `RepeatedMessage` error.
+    - For a better implementation, first check if you should raise `RepeatedMessage` error, after that, you check if you should raise `Full` error.
+    - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
+    - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
 - A Queue object must have a `qsize` method, which returns the number of messages inside it.
 - A Queue object must have a `full` method, which returns if the queue is full or not.
-- A Queue object must have a `put` method. This method must receive an `str` object as id, an "any type" object as content and an `integer` object as timeout.
-    - huh
+- A Queue object must have a `get` method.
 
 
 ## How to Install? 🤘
