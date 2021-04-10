@@ -33,4 +33,4 @@ python -m pytest
 
 ### Linter
 
-QueueTest uses black formatting linter, the pytest will check the linter usage and will fail if your code isn't respecting it.
+QueueTest uses [black formatting linter](https://github.com/psf/black), the pytest will check the linter usage and will fail if your code isn't respecting it.
