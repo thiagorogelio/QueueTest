@@ -17,7 +17,9 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.full(), True)
 
         with self.assertRaises(Full):
-            queue.put("1.txt", {"abc": "whatever"}, timeout=1)
+            queue.put("2.txt", {"abc": "whatever"}, timeout=1)
+
+        queue = Queue(maxsize=1)
 
         with self.assertRaises(ValueError):
             queue.put("1.txt", {"abc": "whatever"}, timeout=-4)
@@ -41,6 +43,8 @@ class TestQueue(unittest.TestCase):
 
     def test_get(self):
         queue = Queue(maxsize=1)
+        self.assertEqual(queue.qsize(), 0)
+        self.assertEqual(queue.full(), False)
 
         with self.assertRaises(Empty):
             queue.get(timeout=1)
@@ -49,8 +53,33 @@ class TestQueue(unittest.TestCase):
             queue.get(timeout=-4)
 
         queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        self.assertEqual(queue.qsize(), 1)
+        self.assertEqual(queue.full(), True)
         queue_message = queue.get(timeout=1)
         self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue.qsize(), 1)
+        self.assertEqual(queue.full(), True)
+
+        queue = Queue(maxsize=2)
+
+        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        self.assertEqual(queue.qsize(), 1)
+        self.assertEqual(queue.full(), False)
+        queue.put("2.txt", {"abc": "whatever"}, timeout=10)
+        self.assertEqual(queue.qsize(), 2)
+        self.assertEqual(queue.full(), True)
+
+        queue_message = queue.get()
+        self.assertEqual(queue_message.id, "1.txt")
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue.qsize(), 2)
+        self.assertEqual(queue.full(), True)
+
+        queue_message = queue.get()
+        self.assertEqual(queue_message.id, "2.txt")
+        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue.qsize(), 2)
+        self.assertEqual(queue.full(), True)
 
     def test_acquire_timeout(self):
         queue = Queue(maxsize=1)

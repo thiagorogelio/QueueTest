@@ -8,6 +8,7 @@ The main objective of QueueTest is to create a list of tasks for asyncronous pro
 The implementation must garantee:
 - All messages/tasks on QueueTest **must be** processed. (If a thread couldn't process a message, it should go back to the queue)
 - To provide a messages/tasks to a single thread on a multithread aplication. (Multhreads can't get the same message/task to avoid processing waste.)
+- FIFO ordenation (First-In First-Out).
 
 Queue Behavior/Rules:
 - A Queue is initially empty (without any messages)
@@ -17,7 +18,7 @@ Queue Behavior/Rules:
     - A Queue object must raise an `Full` error if the queue is full.
     - The timeout value should be used to inform for how many time the Queue object should try to put the message if the queue is full before raising the `Full` error.
     - If an already existed Id is informed, the method should raise the `RepeatedMessage` error.
-    - For a better implementation, first check if you should raise `RepeatedMessage` error, after that, you check if you should raise `Full` error.
+    - For a better implementation, first check if you should raise `ValueError`, after that you can check if you should raise `RepeatedMessage` error, and for last check if you should raise `Full` error.
     - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
 - A Queue object must have a `qsize` method, which returns the number of messages inside it.
@@ -27,6 +28,7 @@ Queue Behavior/Rules:
     - The timeout value should be used to inform for how many time the Queue object should try to get the message if the queue is empty before raising the `Empty` error.
     - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
+    - For a better implementation, first check if you should raise `ValueError`, after that you can check if you should raise `Empty` error.
     - The acquire_timeout value should be used to inform for how many time the thread want to have this object for itself. If another thread tries to get this message after this time, it should be available and not before.
     - If no value is sent in the Acquire Timeout parameter, consider it as `10` (seconds).
 - A Queue object must have a `delete` method, which removes the message from the queue. This method must receive an `str` object as id.
