@@ -8,7 +8,6 @@ The main objective of QueueTest is to create a list of tasks for asyncronous pro
 The implementation must garantee:
 - All messages/tasks on QueueTest **must be** processed. (If a thread couldn't process a message, it should go back to the queue)
 - To provide a messages/tasks to a single thread on a multithread aplication. (Multhreads can't get the same message/task to avoid processing waste.)
-- FIFO ordenation (First-In First-Out).
 
 Queue Behavior/Rules:
 - A Queue is initially empty (without any messages)

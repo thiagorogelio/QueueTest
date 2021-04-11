@@ -65,13 +65,14 @@ class TestQueue(unittest.TestCase):
         queue.put("1.txt", {"abc": "whatever"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), False)
-        queue.put("2.txt", {"abc": "whatever"}, timeout=10)
-        self.assertEqual(queue.qsize(), 2)
-        self.assertEqual(queue.full(), True)
 
         queue_message = queue.get()
         self.assertEqual(queue_message.id, "1.txt")
         self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue.qsize(), 1)
+        self.assertEqual(queue.full(), False)
+
+        queue.put("2.txt", {"abc": "whatever"}, timeout=10)
         self.assertEqual(queue.qsize(), 2)
         self.assertEqual(queue.full(), True)
 
