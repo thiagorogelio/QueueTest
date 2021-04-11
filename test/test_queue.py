@@ -1,6 +1,7 @@
 import unittest
-from src.queue import DeleteAttemptToUnknownMessage, Queue, Full, RepeatedMessage, Empty
 import time
+
+from src.queue import DeleteAttemptToUnknownMessage, Queue, Full, RepeatedMessage, Empty
 
 
 class TestQueue(unittest.TestCase):
