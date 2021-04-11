@@ -97,12 +97,6 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
 
-        with self.assertRaises(Empty):
-            queue.delete(queue_message.id)
-
-        with self.assertRaises(ValueError):
-            queue.delete(queue_message.id, timeout=-30)
-
         queue.put("1.txt", {"abc": "whatever"}, timeout=10)
         queue_message = queue.get(timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)

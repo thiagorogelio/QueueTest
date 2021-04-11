@@ -12,7 +12,7 @@ The implementation must garantee:
 Queue Behavior/Rules:
 - A Queue is initially empty (without any messages)
 - On instantiating a Queue, you must choose the max size of it (you can use `0` as infinite size).
-- A Queue object must have a `put` method. This method must receive an `str` object as id, an "any type" object as content and an optional `integer` object as timeout.
+- A Queue object must have a `put` method, which inserts a message into the Queue. This method must receive an `str` object as id, an "any type" object as content and an optional `integer` object as timeout.
     - The Id and Content values must be used to create a new QueueMessage object and then, saved into the Queue.
     - A Queue object must raise an `Full` error if the queue is full.
     - The timeout value should be used to inform for how many time the Queue object should try to put the message if the queue is full before raising the `Full` error.
@@ -22,14 +22,16 @@ Queue Behavior/Rules:
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
 - A Queue object must have a `qsize` method, which returns the number of messages inside it.
 - A Queue object must have a `full` method, which returns if the queue is full or not.
-- A Queue object must have a `get` method. This method can receive an optional `integer` object as timeout and a optional `integer` object as acquire_timeout.
+- A Queue object must have a `get` method, which returns a QueueMessage object. This method can receive an optional `integer` object as timeout and a optional `integer` object as acquire_timeout.
     - A Queue object must raise an `Empty` error if the queue is empty.
     - The timeout value should be used to inform for how many time the Queue object should try to get the message if the queue is empty before raising the `Empty` error.
     - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
     - The acquire_timeout value should be used to inform for how many time the thread want to have this object for itself. If another thread tries to get this message after this time, it should be available and not before.
     - If no value is sent in the Acquire Timeout parameter, consider it as `10` (seconds).
-- A Queue object must have a `delete` method, which removes the message from the queue.
+- A Queue object must have a `delete` method, which removes the message from the queue. This method must receive an `str` object as id.
+    - A Queue object must raise an `DeleteAttemptToUnknownMessage` error if the id doesn't exists on the queue.
+- These are the only public methods that must exists. You can create any number of private methods that you want, as long as you use the prefix `_` to them.
 
 ## How to Install? 🤘
 
