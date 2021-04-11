@@ -38,8 +38,8 @@ class MessageConsumer(Thread):
             if self.delete_on_finish:
                 processed_messages.append(self.queue_message.id)
                 self.queue.delete(self.queue_message.id)
-        except:
-            pass
+        except Exception as e:
+            print(type(e), e)
 
 
 class MessageFeeder(Thread):
@@ -56,8 +56,8 @@ class MessageFeeder(Thread):
         try:
             self.queue.put(self.id, self.content, timeout=self.timeout)
             self.result = True
-        except:
-            pass
+        except Exception as e:
+            print(type(e), e)
 
 
 class TestMulthreadQueue(unittest.TestCase):
@@ -65,7 +65,7 @@ class TestMulthreadQueue(unittest.TestCase):
         global processed_messages
         processed_messages = []
 
-    # @unittest.skip("Advanced Test 1")
+    @unittest.skip("Advanced Test 1")
     def test_timeout_put(self):
         queue = Queue(maxsize=1)
         t1 = MessageFeeder(queue, "1.txt", {"content": "file content"})
@@ -85,7 +85,7 @@ class TestMulthreadQueue(unittest.TestCase):
         t2.join()
         self.assertTrue(t2.result)
 
-    # @unittest.skip("Advanced Test 2")
+    @unittest.skip("Advanced Test 2")
     def test_timeout_get(self):
 
         queue = Queue(maxsize=1)
@@ -104,7 +104,7 @@ class TestMulthreadQueue(unittest.TestCase):
 
         self.assertEqual(queue.qsize(), 0)
 
-    # @unittest.skip("Advanced Test 3")
+    @unittest.skip("Advanced Test 3")
     def test_timeout_get_by_acquire_timeout(self):
 
         queue = Queue(maxsize=1)
