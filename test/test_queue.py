@@ -13,32 +13,32 @@ class TestQueue(unittest.TestCase):
 
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
 
         with self.assertRaises(Full):
-            queue.put("2.txt", {"abc": "whatever"}, timeout=1)
+            queue.put("2.txt", {"content": "file content"}, timeout=1)
 
         queue = Queue(maxsize=1)
 
         with self.assertRaises(ValueError):
-            queue.put("1.txt", {"abc": "whatever"}, timeout=-4)
+            queue.put("1.txt", {"content": "file content"}, timeout=-4)
 
         queue = Queue(maxsize=2)
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
-        queue.put("1.txt", {"abc": "whatever"}, timeout=1)
+        queue.put("1.txt", {"content": "file content"}, timeout=1)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), False)
 
         with self.assertRaises(RepeatedMessage):
-            queue.put("1.txt", {"abc": "whatever"}, timeout=1)
+            queue.put("1.txt", {"content": "file content"}, timeout=1)
 
         queue = Queue(maxsize=0)
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
-        queue.put("1.txt", {"abc": "whatever"}, timeout=1)
+        queue.put("1.txt", {"content": "file content"}, timeout=1)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), False)
 
@@ -53,33 +53,33 @@ class TestQueue(unittest.TestCase):
         with self.assertRaises(ValueError):
             queue.get(timeout=-4)
 
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
         queue_message = queue.get(timeout=1)
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
 
         queue = Queue(maxsize=2)
 
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), False)
 
         queue_message = queue.get()
         self.assertEqual(queue_message.id, "1.txt")
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), False)
 
-        queue.put("2.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("2.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 2)
         self.assertEqual(queue.full(), True)
 
         queue_message = queue.get()
         self.assertEqual(queue_message.id, "2.txt")
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue.qsize(), 2)
         self.assertEqual(queue.full(), True)
 
@@ -88,14 +88,14 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
 
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
 
         queue_message = queue.get(timeout=1, acquire_timeout=0.1)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue_message.id, "1.txt")
 
         time.sleep(0.5)
@@ -103,7 +103,7 @@ class TestQueue(unittest.TestCase):
         queue_message = queue.get(timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue_message.id, "1.txt")
 
         with self.assertRaises(Empty):
@@ -114,27 +114,27 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
 
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
 
         queue_message = queue.get(timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
-        self.assertEqual(queue_message.content, {"abc": "whatever"})
+        self.assertEqual(queue_message.content, {"content": "file content"})
         self.assertEqual(queue_message.id, "1.txt")
 
         queue.delete(queue_message.id)
         self.assertEqual(queue.qsize(), 0)
         self.assertEqual(queue.full(), False)
 
-        queue.put("1.txt", {"abc": "whatever"}, timeout=10)
+        queue.put("1.txt", {"content": "file content"}, timeout=10)
         queue_message = queue.get(timeout=1, acquire_timeout=10)
         self.assertEqual(queue.qsize(), 1)
         self.assertEqual(queue.full(), True)
 
         with self.assertRaises(DeleteAttemptToUnknownMessage):
-            queue.delete("obiwan")
+            queue.delete("random_file.txt")
 
     def tearDown(self):
         pass
