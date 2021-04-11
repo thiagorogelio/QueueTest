@@ -22,8 +22,12 @@ Queue Behavior/Rules:
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
 - A Queue object must have a `qsize` method, which returns the number of messages inside it.
 - A Queue object must have a `full` method, which returns if the queue is full or not.
-- A Queue object must have a `get` method.
-
+- A Queue object must have a `get` method. This method can receive an optional `integer` object as timeout and a optional `integer` object as acquire_timeout.
+    - A Queue object must raise an `Empty` error if the queue is empty.
+    - The timeout value should be used to inform for how many time the Queue object should try to get the message if the queue is empty before raising the `Empty` error.
+    - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
+    - The acquire_timeout value should be used to inform for how many time the thread want to have this object for itself. If another thread tries to get this message after this time, it should be available and not before.
+    - If no value is sent in the Acquire Timeout parameter, consider it as `10` (seconds).
 
 ## How to Install? 🤘
 
