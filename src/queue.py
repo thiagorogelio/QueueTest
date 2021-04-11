@@ -1,6 +1,4 @@
 from typing import Any
-from dataclasses import dataclass
-
 
 class Empty(Exception):
     def __init__(self) -> None:
@@ -24,10 +22,10 @@ class DeleteAttemptToUnknownMessage(Exception):
         )
 
 
-@dataclass
 class QueueMessage:
-    id: str
-    content: Any
+    def __init__(self, id: str, content: Any):
+        self.id = id
+        self.content = content
 
 
 class Queue(object):
