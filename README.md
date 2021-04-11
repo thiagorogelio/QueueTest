@@ -17,9 +17,9 @@ Queue Behavior/Rules:
     - A Queue object must raise an `Full` error if the queue is full.
     - The timeout value should be used to inform for how many time the Queue object should try to put the message if the queue is full before raising the `Full` error.
     - If an already existed Id is informed, the method should raise the `RepeatedMessage` error.
-    - For a better implementation, first check if you should raise `ValueError`, after that you can check if you should raise `RepeatedMessage` error, and for last check if you should raise `Full` error.
     - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
     - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
+    - For a better implementation, first check if you should raise `ValueError`, after that you can check if you should raise `RepeatedMessage` error, and for last check if you should raise `Full` error.
 - A Queue object must have a `qsize` method, which returns the number of messages inside it.
 - A Queue object must have a `full` method, which returns if the queue is full or not.
 - A Queue object must have a `get` method, which returns a QueueMessage object. This method can receive an optional `integer` object as timeout and a optional `integer` object as acquire_timeout.
