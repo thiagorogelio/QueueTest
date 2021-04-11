@@ -26,8 +26,10 @@ Queue Behavior/Rules:
     - A Queue object must raise an `Empty` error if the queue is empty.
     - The timeout value should be used to inform for how many time the Queue object should try to get the message if the queue is empty before raising the `Empty` error.
     - If no value is sent in the Timeout parameter, consider it as `10` (seconds).
+    - If an invalid number is sent in the Timeout parameter, it should raise a `ValueError` error.
     - The acquire_timeout value should be used to inform for how many time the thread want to have this object for itself. If another thread tries to get this message after this time, it should be available and not before.
     - If no value is sent in the Acquire Timeout parameter, consider it as `10` (seconds).
+- A Queue object must have a `delete` method, which removes the message from the queue.
 
 ## How to Install? 🤘
 
