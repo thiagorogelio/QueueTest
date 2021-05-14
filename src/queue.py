@@ -94,6 +94,7 @@ class Queue:
                             or self._queue[id].timeout < time.monotonic()
                         ):
                             self._queue[id].timeout = time.monotonic() + acquire_timeout
+                            time.sleep(0.5)
                             return self._queue[id]
                         else:
                             if self._queue[id].timeout < min_timeout:
