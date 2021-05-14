@@ -151,7 +151,11 @@ class TestMulthreadQueue(unittest.TestCase):
                 MessageConsumer(queue, acquire_timeout=10, timeout=90)
             )
             consumer_threads[-1].start()
-            consumer_threads[-1].done = True
+
+        time.sleep(0.5)
+
+        for i in range(25):
+            consumer_threads[i].done = True
 
         for t in consumer_threads:
             t: MessageConsumer
