@@ -27,7 +27,7 @@ class DeleteAttemptToUnknownMessage(Exception):
 
 
 class QueueMessage:
-    def __init__(self, id: str, content: Any, timeout=None):
+    def __init__(self, id: str, content: Any, timeout: int = None):
         self.id = id
         self.content = content
         self.timeout = timeout
@@ -75,7 +75,7 @@ class Queue:
         """Return True if the queue is full."""
         return 0 < self._maxsize <= self.qsize()
 
-    def get(self, timeout=10, acquire_timeout=10) -> QueueMessage:
+    def get(self, timeout: int = 10, acquire_timeout: int = 10) -> QueueMessage:
         """Return an message from the queue. This message is 'hidden' from the queue until its deletion or 'acquire_timeout' is reached.
         'timeout' arg inform how long the Queue object should try to get the message if the queue is empty before raising the `Empty` error.
         'acquire_timeout' arg value inform how long the thread wants to have this message for itself, if the message is not deleted it should be available in the queue after this time.
@@ -94,7 +94,6 @@ class Queue:
                             or self._queue[id].timeout < time.monotonic()
                         ):
                             self._queue[id].timeout = time.monotonic() + acquire_timeout
-                            time.sleep(0.5)
                             return self._queue[id]
                         else:
                             if self._queue[id].timeout < min_timeout:
