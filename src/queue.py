@@ -45,7 +45,7 @@ class Queue:
         self._not_full = Condition(self._lock)
         self._not_empty = Condition(self._lock)
 
-    def put(self, id: str, content: Any, timeout: int = 10):
+    def put(self, id: str, content: Any, timeout: int = 10) -> None:
         """Put an message into the queue.
         The 'id' and 'content' values are used to create a new QueueMessage and into the Queue.
         If the queue is full it will try to put the message for 'timeout' seconds before raise a Full Exception.
